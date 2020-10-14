@@ -11,16 +11,18 @@ const port = process.env.PORT || 3000
 
 app.use(express.static(path.join(__dirname, '../public')))
 
-let count = 0
-
 io.on('connection', (socket) => {
     console.log('New WebSocket connection')
 
-    socket.emit('countUpdated', count)
+    socket.emit('sendMessage', 'Welcome!')
+    socket.broadcast.emit('message', 'A new user has joined.')
 
-    socket.on('increment', () => {
-        count++
-        io.emit('countUpdated', count)
+    socket.on('sendMessage', (message) => {
+        io.emit('sendMessage', message)
+    })
+
+    socket.on('disconnect', () => {
+        io.emit('message', 'A user has left.')
     })
 })
 
