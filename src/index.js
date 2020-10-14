@@ -34,7 +34,7 @@ io.on('connection', (socket) => {
 
     // when the server receives a 'sendLocation', send that location to all clients.
     socket.on('sendLocation', (position, callback) => {
-        io.emit('message', `https://google.com/maps?q=${position.latitude},${position.longitude}`)
+        io.emit('locationMessage', `https://google.com/maps?q=${position.latitude},${position.longitude}`)
         callback()
     })
 
